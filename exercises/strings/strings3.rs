@@ -3,18 +3,17 @@
 // Execute `rustlings hint strings3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 fn trim_me(input: &str) -> String {
     input.trim().to_string()
 }
 
 fn compose_me(input: &str) -> String {
-    // TODO: Add " world!" to the string! There's multiple ways to do this!
-     input.to_string().psuh_str(" world!")
+     input.to_string().push_str(" world!");
+     input.to_string()
 }
 
-fn replace_me(input: &str) -> String {
+fn replace_me(input: &str) ->String {
     input.replace("cars", "balloons").to_string()
 }
 
