@@ -6,7 +6,6 @@
 // hint.
 
 // I AM NOT DONE
-
 struct ColorClassicStruct {
   red:i32,
   green:i32,
