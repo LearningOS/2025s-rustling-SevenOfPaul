@@ -20,11 +20,9 @@ struct ColorTupleStruct(i32,i32,i32);
 
 #[derive(Debug)]
 struct UnitLikeStruct;
-impl UnitLikeStruct{
-    fn new(red:i32,green:i32,blue:i32)->ColorClassicStruct{
-        ColorClassicStruct{red,green,blue}
-    }
-}
+fn create()->UnitLikeStruct{
+    UnitLikeStruct{}
+}   
 
 #[cfg(test)]
 mod tests {
@@ -53,7 +51,7 @@ mod tests {
     #[test]
     fn unit_structs() {
         // TODO: Instantiate a unit-like struct!
-        let unit_like_struct =UnitLikeStruct::new(0,255,0);
+        let unit_like_struct =UnitLikeStruct{};
         let message = format!("{:?}s are fun!", unit_like_struct);
 
         assert_eq!(message, "UnitLikeStructs are fun!");
