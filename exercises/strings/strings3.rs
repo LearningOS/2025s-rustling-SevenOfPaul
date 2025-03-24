@@ -9,8 +9,9 @@ fn trim_me(input: &str) -> String {
 }
 
 fn compose_me(input: &str) -> String {
-     input.to_string().push_str(" world!");
-     input.to_string()
+    let mut res=input.to_owned();
+    res.push_str(" world!");
+    res
 }
 
 fn replace_me(input: &str) ->String {
