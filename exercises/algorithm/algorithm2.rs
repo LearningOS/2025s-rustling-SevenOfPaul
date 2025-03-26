@@ -2,13 +2,11 @@
 	double linked list reverse
 	This problem requires you to reverse a doubly linked list
 */
-// I AM NOT DONE
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
-use std::vec::*;
-
-#[derive(Debug)]
+use std::vec::Vec;
+#[derive(Debug,Clone)]
 struct Node<T> {
     val: T,
     next: Option<NonNull<Node<T>>>,
@@ -24,20 +22,20 @@ impl<T> Node<T> {
         }
     }
 }
-#[derive(Debug)]
+#[derive(Debug,Clone)]
 struct LinkedList<T> {
     length: u32,
     start: Option<NonNull<Node<T>>>,
     end: Option<NonNull<Node<T>>>,
 }
 
-impl<T> Default for LinkedList<T> {
+impl<T:Clone> Default for LinkedList<T> {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl<T> LinkedList<T> {
+impl<T:Clone> LinkedList<T> {
     pub fn new() -> Self {
         Self {
             length: 0,
@@ -73,7 +71,24 @@ impl<T> LinkedList<T> {
         }
     }
 	pub fn reverse(&mut self){
-		// TODO
+		let mut  arr=vec![];
+        let mut start1 = self.start;
+        while let Some(node_ptr) = start1 {
+                arr.push(unsafe { node_ptr.as_ref().val.clone() }); // 使用 clone() 避免直接操作引用
+                unsafe{
+                    start1 = node_ptr.as_ref().next;
+                }
+        }
+        let mut start2 = self.start;
+
+        // 遍历链表并从数组中取值赋回链表
+        while let Some(mut node_ptr) = start2 {
+            unsafe{
+            node_ptr.as_mut() .val = arr.pop().unwrap();
+                start2 = node_ptr.as_ref().next;
+            }
+            
+        }
 	}
 }
 
