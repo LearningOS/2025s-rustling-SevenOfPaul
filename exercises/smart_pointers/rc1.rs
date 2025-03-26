@@ -10,7 +10,6 @@
 //
 // Execute `rustlings hint rc1` or use the `hint` watch subcommand for a hint.
 
-// I AM NOT DONE
 
 use std::rc::Rc;
 
@@ -38,7 +37,7 @@ impl Planet {
 fn main() {
     let sun = Rc::new(Sun {});
     println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
-
+  {
     let mercury = Planet::Mercury(Rc::clone(&sun));
     println!("reference count = {}", Rc::strong_count(&sun)); // 2 references
     mercury.details();
@@ -69,9 +68,11 @@ fn main() {
     println!("reference count = {}", Rc::strong_count(&sun)); // 8 references
     uranus.details();
 
-    // TODO
     let neptune = Planet::Neptune(Rc::new(Sun {}));
-    println!("reference count = {}", Rc::strong_count(&sun)); // 9 references
+    println!("reference count = {}", Rc::strong_count(&sun)); 
+    let n1=Rc::clone(&sun);
+    let n2=Rc::clone(&sun);
+    let n3=Rc::clone(&sun);
     neptune.details();
 
     assert_eq!(Rc::strong_count(&sun), 9);
@@ -99,6 +100,9 @@ fn main() {
 
     // TODO
     println!("reference count = {}", Rc::strong_count(&sun)); // 1 reference
-
-    assert_eq!(Rc::strong_count(&sun), 1);
+  }
+      
+    {
+        assert_eq!(Rc::strong_count(&sun), 1);
+    }
 }
