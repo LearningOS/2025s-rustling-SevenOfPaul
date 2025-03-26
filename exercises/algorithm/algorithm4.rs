@@ -3,12 +3,11 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
 
-#[derive(Debug)]
+#[derive(Debug,Clone)]
 struct TreeNode<T>
 where
     T: Ord,
@@ -37,6 +36,30 @@ where
             right: None,
         }
     }
+    fn search_node(&self, value: T) -> bool {
+    	if self.value==value {
+    		return true;
+    	}else if self.value<value {
+            return self.right.is_some()&&self.right.as_ref().unwrap().search_node(value);
+        }else{
+            return self.left.is_some()&&self.left.as_ref().unwrap().search_node(value);  
+        }
+    	}
+    fn insert_node(&mut self, newNode: Box<TreeNode<T>>) {
+        if newNode.value < self.value {
+            if let Some(ref mut left) = self.left {
+                left.insert_node(newNode);
+            } else {
+                self.left = Some(newNode);
+            }
+        } else if newNode.value > self.value {
+            if let Some(ref mut right) = self.right {
+                right.insert_node(newNode);
+            } else {
+                self.right = Some(newNode);
+            }
+        }
+    }
 }
 
 impl<T> BinarySearchTree<T>
@@ -50,25 +73,23 @@ where
 
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
-        //TODO
+        let node = Box::new(TreeNode::new(value));
+        if let Some(ref mut root) = self.root {
+            root.insert_node(node);
+        } else {
+            self.root = Some(node);
+        }
     }
-
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
-        //TODO
-        true
+        if self.root.is_none(){
+            return false;
+        }
+         let root=self.root.as_ref().unwrap();
+         return root.search_node(value);
     }
 }
 
-impl<T> TreeNode<T>
-where
-    T: Ord,
-{
-    // Insert a node into the tree
-    fn insert(&mut self, value: T) {
-        //TODO
-    }
-}
 
 
 #[cfg(test)]
@@ -121,6 +142,9 @@ mod tests {
             None => panic!("Root should not be None after insertion"),
         }
     }
-}    
+}
+// fn main() {
+//     println!("Hello, world!");
+// }
 
 
