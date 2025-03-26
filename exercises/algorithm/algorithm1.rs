@@ -74,7 +74,7 @@ impl<T: std::cmp::PartialOrd+ Clone> LinkedList<T> {
         let mut ptrr=list_b.start;
         while ptrl.is_some() && ptrr.is_some() {
             unsafe {
-                if ptrl.unwrap().clone().as_ref().val < ptrr.clone().unwrap().as_ref().val {
+                if ptrl.unwrap().as_ref().val < ptrr.unwrap().as_ref().val {
                     list.add(ptrl.unwrap().as_ref().val.clone());
                     ptrl=ptrl.unwrap().as_ref().next;
                 }else{
