@@ -29,11 +29,12 @@ fn send_tx(q: Queue, tx: Arc<mpsc::Sender<u32>>) -> () {
     let qc = Arc::new(q);
     let qc1 = Arc::clone(&qc);
     let qc2 = Arc::clone(&qc);
+    let tx1=Arc::clone(&tx);
     let tx2=Arc::clone(&tx);
     thread::spawn(move || {
         for val in &qc1.first_half {
             println!("sending {:?}", val);
-            tx.send(*val).unwrap();
+            tx1.send(*val).unwrap();
             thread::sleep(Duration::from_secs(1));
         }
     });
@@ -45,6 +46,7 @@ fn send_tx(q: Queue, tx: Arc<mpsc::Sender<u32>>) -> () {
             thread::sleep(Duration::from_secs(1));
         }
     });
+    drop(tx)
 }
 
 fn main() {
@@ -55,7 +57,7 @@ fn main() {
     send_tx(queue,Arc::clone(&tx) );
 
     let mut total_received: u32 = 0;
-    for received in rx.iter() {
+    while let Ok(received) = rx.recv() {
         println!("Got: {}", received);
         total_received += 1;
     }
