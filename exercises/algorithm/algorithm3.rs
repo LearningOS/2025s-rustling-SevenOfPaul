@@ -3,10 +3,32 @@
 	This problem requires you to implement a sorting algorithm
 	you can use bubble sorting, insertion sorting, heap sorting, etc.
 */
-// I AM NOT DONE
-
-fn sort<T>(array: &mut [T]){
-	//TODO
+fn mergeSort<T>(array: Vec<T>) -> Vec<T> where T: Clone+PartialOrd+Copy {
+    if array.len() < 2 {
+        return array
+    }
+    let mid= array.len()>>1;
+    return merge(mergeSort(array[0..mid].to_vec()),mergeSort(array[mid.. array.len()].to_vec()));
+}
+fn merge<T>(leftV:Vec<T>,rightV:Vec<T>)->Vec<T> where T: Clone+PartialOrd+Copy{
+    let mut arr=vec![];
+    let mut left=0;
+    let mut right=0;
+    while left<leftV.len() && right< rightV.len(){
+        if leftV[left]<rightV[right]{
+            arr.push(leftV[left]);
+            left+=1;
+        }else{
+            arr.push(rightV[right]);
+            right+=1;
+        }
+    }
+    arr.extend_from_slice(&leftV[left..leftV.len()]);
+    arr.extend_from_slice(&rightV[right..rightV.len()]);
+ return arr
+}
+fn sort<T:Clone+PartialOrd+Copy>(array: &mut [T]){
+    array.copy_from_slice(&mergeSort(array.to_vec()));
 }
 #[cfg(test)]
 mod tests {
