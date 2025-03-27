@@ -9,7 +9,7 @@ fn main() {
     let timestamp = std::time::SystemTime::now()
         .duration_since(std::time::UNIX_EPOCH)
         .unwrap()
-        .as_secs(); // Get the current UNIX timestamp.
+        .as_secs();
     println!("cargo:rustc-env=TEST_FOO={}", timestamp);
   
     // In tests8, we should enable "pass" feature to make the
@@ -17,5 +17,6 @@ fn main() {
     // Cargo about that.
 // let your_command = "Your command here, please checkout exercises/tests/build.rs";
 // println!("cargo:rustc-cfg=pass");
-println!("cargo:rustc-cfg=feature={}","");
+// 修改这一行，需要正确的 feature 配置格式
+println!("cargo:rustc-cfg=feature=\"pass\"");
 }
